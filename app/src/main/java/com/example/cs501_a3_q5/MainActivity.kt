@@ -35,13 +35,15 @@ class MainActivity : AppCompatActivity() {
         celsiusSeekBar.max = MAX_CELSIUS - MIN_CELSIUS
         celsiusSeekBar.progress = 0
         fahrenheitSeekBar.max = MAX_FAHRENHEIT - MIN_FAHRENHEIT
-        fahrenheitSeekBar.progress = 0
+        // initial value: fahrenheit >= 32
+        fahrenheitSeekBar.progress = 32
 
         // Set the listener for the Celsius SeekBar
         celsiusSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val celsius = MIN_CELSIUS + progress
                 val fahrenheit = celsiusToFahrenheit(celsius)
+
                 fahrenheitSeekBar.progress = fahrenheit - MIN_FAHRENHEIT
                 temperatureCelsiusTextView.text = "$celsius"
                 temperatureFahrenheitTextView.text = "$fahrenheit"
@@ -54,11 +56,19 @@ class MainActivity : AppCompatActivity() {
         // Set the listener for the Fahrenheit SeekBar
         fahrenheitSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
                 val fahrenheit = MIN_FAHRENHEIT + progress
-                val celsius = fahrenheitToCelsius(fahrenheit)
-                celsiusSeekBar.progress = celsius - MIN_CELSIUS
-                temperatureCelsiusTextView.text = "$celsius"
-                temperatureFahrenheitTextView.text = "$fahrenheit"
+                if (fahrenheit < 32) {
+                    fahrenheitSeekBar.progress = 32 - MIN_FAHRENHEIT
+                    celsiusSeekBar.progress = 0
+                    temperatureCelsiusTextView.text = "0"
+                    temperatureFahrenheitTextView.text = "32"
+                } else {
+                    val celsius = fahrenheitToCelsius(fahrenheit)
+                    celsiusSeekBar.progress = celsius - MIN_CELSIUS
+                    temperatureCelsiusTextView.text = "$celsius"
+                    temperatureFahrenheitTextView.text = "$fahrenheit"
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
