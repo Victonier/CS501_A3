@@ -15,37 +15,4 @@ class ExampleUnitTest {
     }
 }
 
-class UnitTest {
 
-    @Test
-    fun testCelsiusToFahrenheit() {
-        // Arrange
-        val celsius = 0
-
-        // Act
-        val result = celsiusToFahrenheit(celsius)
-
-        // Assert
-        assertEquals(32, result)
-    }
-
-    private fun celsiusToFahrenheit(celsius: Int): Int{
-        return (celsius * 9 / 5) + 32
-    }
-
-    @Test
-    fun testFahrenheitToCelsius() {
-        // Arrange
-        val fahrenheit = 32
-
-        // Act
-        val result = fahrenheitToCelsius(fahrenheit)
-
-        // Assert
-        assertEquals(0, result)
-    }
-
-    private fun fahrenheitToCelsius(fahrenheit: Int): Int{
-        return (fahrenheit - 32) * 5 / 9
-    }
-}
